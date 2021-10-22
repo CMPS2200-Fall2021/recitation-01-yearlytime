@@ -37,7 +37,19 @@ def _binary_search(mylist, key, left, right):
 	Returns:
 	  index of key in mylist, or -1 if not present.
 	"""
-	### TODO
+	#check base case
+	if right>=left:
+		mid=(right+left)//2
+		if mylist[mid]==key:
+			return mid
+		elif mylist[mid]>key:
+			return _binary_search(mylist, key, left, mid-1)
+		else:
+			return _binary_search(mylist, key, mid+1, right)
+	else:
+		return -1
+
+	### INPROGRESS
 	pass
 
 def test_binary_search():
@@ -45,6 +57,8 @@ def test_binary_search():
 	assert binary_search([1,2,3,4,5], 1) == 0
 	assert binary_search([1,2,3,4,5], 6) == -1
 	### TODO: add two more tests here.
+	assert binary_search([1,2,1,4,5], 1) == 0
+	assert binary_search([1,2,3,3,5], 4) == -1
 	pass
 
 
@@ -67,7 +81,10 @@ def time_search(search_fn, mylist, key):
 	  search function on this input.
 	"""
 	### TODO
-	pass
+	old_time = time.time()
+	search_fn(mylist, key)
+	new_time = time.time()
+	return (new_time - old_time) * 1000
 
 def compare_search(sizes=[1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7]):
 	"""
@@ -85,7 +102,14 @@ def compare_search(sizes=[1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7]):
 	  for each method to run on each value of n
 	"""
 	### TODO
-	pass
+	key = -1
+	x = []
+	for i in range(len(sizes)):
+		new = range(sizes[i])
+		binary_search_time = time_search(binary_search, new, key)
+		linear_search_time = time_search(linear_search, new, key)
+		x.append((sizes[i], linear_search_time, binary_search_time))
+	return x
 
 def print_results(results):
 	""" done """
